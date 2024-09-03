@@ -91,6 +91,10 @@ class ApiResultError(ApiError):
     ERROR_CODE = "002"
 
 
+class DirectEsquerySearchError(BaseException):
+    MESSAGE = _("EsquerySearch查询异常")
+
+
 class ComponentCallError(BaseException):
     MESSAGE = _("组件调用异常")
     ERROR_CODE = "003"
