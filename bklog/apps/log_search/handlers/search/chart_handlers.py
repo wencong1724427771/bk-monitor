@@ -67,6 +67,27 @@ class ChartHandler(object):
         """
         raise NotImplementedError(_("功能暂未实现"))
 
+    def save_chart_configs(self, chart_configs: dict) -> dict:
+        """
+        保存图表配置
+        :param chart_configs: 图表配置
+        """
+        self.data.chart_configs = chart_configs
+        self.data.save()
+        return {
+            "index_set_id": self.index_set_id,
+            "chart_configs": chart_configs,
+        }
+
+    def get_chart_configs(self) -> dict:
+        """
+        获取图表配置
+        """
+        return {
+            "index_set_id": self.index_set_id,
+            "chart_configs": self.data.chart_configs,
+        }
+
     @staticmethod
     def generate_sql(params: dict) -> str:
         """

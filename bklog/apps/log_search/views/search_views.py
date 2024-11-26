@@ -74,6 +74,7 @@ from apps.log_search.models import AsyncTask, LogIndexSet
 from apps.log_search.permission import Permission
 from apps.log_search.serializers import (
     BcsWebConsoleSerializer,
+    ChartConfigSerializer,
     ChartSerializer,
     CreateIndexSetFieldsConfigSerializer,
     GetExportHistorySerializer,
@@ -1744,6 +1745,15 @@ class SearchViewSet(APIViewSet):
         params = self.params_valid(ChartSerializer)
         instance = ChartHandler.get_instance(index_set_id=index_set_id, mode=params["query_mode"])
         result = instance.get_chart_data(params)
+        return Response(result)
+
+    @detail_route(methods=["GET", "POST"], url_path="chart_config")
+    def chart_configs(self, request, index_set_id=None):
+        if request.method == "POST":
+            params = self.params_valid(ChartConfigSerializer)
+            result = ChartHandler(index_set_id=index_set_id).save_chart_configs(chart_configs=params["chart_configs"])
+        else:
+            result = ChartHandler(index_set_id=index_set_id).get_chart_configs()
         return Response(result)
 
     @detail_route(methods=["POST"], url_path="generate_sql")

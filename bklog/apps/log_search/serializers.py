@@ -935,10 +935,14 @@ class UserIndexSetCustomConfigSerializer(serializers.Serializer):
 
 
 class ChartSerializer(serializers.Serializer):
-    sql = serializers.CharField(label=_("sql语句"), max_length=512)
+    sql = serializers.CharField(label=_("sql语句"), required=True)
     query_mode = serializers.ChoiceField(
         label=_("查询模式"), required=False, choices=QueryMode.get_choices(), default=QueryMode.SQL.value
     )
+
+
+class ChartConfigSerializer(serializers.Serializer):
+    chart_configs = serializers.JSONField(label=_("图表相关配置"), default=dict, required=False)
 
 
 class SearchConditionSerializer(serializers.Serializer):
