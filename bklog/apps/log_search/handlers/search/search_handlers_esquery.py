@@ -1529,6 +1529,10 @@ class SearchHandler(object):
             if not item_doc_value:
                 raise BaseSearchSortListException(BaseSearchSortListException.MESSAGE.format(sort_item=field))
 
+    """
+    from apps.log_search.handlers.search.search_handlers_esquery import *
+    """
+
     def search_context(self):
         if self.scenario_id == Scenario.ES and not (self.index_set_obj.target_fields or self.index_set_obj.sort_fields):
             return {"total": 0, "took": 0, "list": []}
@@ -2318,7 +2322,12 @@ class SearchHandler(object):
         if sort_fields:
             for index, item in enumerate(log_list):
                 for field in sort_fields + target_fields:
-                    if str(item.get(field)) != str(self.search_dict.get(field)):
+                    if "." not in field:
+                        item_field = item.get(field)
+                    else:
+                        field_list = field.split(".", maxsplit=1)
+                        item_field = item.get(field_list[0], {}).get(field_list[-1])
+                    if str(item_field) != str(self.search_dict.get(field)):
                         break
                 else:
                     _index = index
