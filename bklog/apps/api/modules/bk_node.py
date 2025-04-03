@@ -150,6 +150,14 @@ class _BKNodeApi:
             before_request=get_bk_node_request_before,
             use_superuser=True,
         )
+        self.get_host_biz_proxies = DataAPI(
+            method="GET",
+            url='https://bkapi.paas3-dev.bktencent.com/api/c/compapi/v2/nodeman/' + "api/host/biz_proxies/",
+            module=self.MODULE,
+            description="查询业务下管控区域的proxy集合",
+            before_request=get_bk_node_request_before,
+            use_superuser=True,
+        )
 
 
 BKNodeApi = _BKNodeApi()
